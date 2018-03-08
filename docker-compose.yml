@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   app:
     build: .
@@ -7,13 +7,11 @@ services:
       - .:/app
     ports:
       - "3000:3000"
+    depends_on:
+      - redis
     links:
       - redis
-    environment:
-      - REDIS_URL=redis://redis:6379
   redis:
     image: redis
     ports:
       - "6379:6379"
-
-
