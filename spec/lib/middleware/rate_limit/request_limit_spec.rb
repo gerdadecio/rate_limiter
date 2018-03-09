@@ -10,6 +10,18 @@ describe Middleware::RequestLimit do
   describe '.initialize' do
     context 'when passing invalid arguments' do
       it { expect{described_class.new(redis)}.to raise_error(ArgumentError) }
+
+      it 'raises an Invalid Redis Object' do
+        expect{
+          described_class.new(nil, redis_key: 'sample')
+        }.to raise_error(ArgumentError, 'Invalid Redis Object')
+      end
+
+      it 'raises an Invalid Redis Key' do
+        expect{
+          described_class.new(redis, redis_key: nil)
+        }.to raise_error(ArgumentError, 'Invalid Redis Key')
+      end
     end
 
     context 'when passing valid arguments' do

@@ -6,6 +6,7 @@ module Middleware
       @redis_key = redis_key
       @time_window = time_window
 
+      validate!
       process
     end
 
@@ -54,5 +55,9 @@ module Middleware
       @redis.ttl(key)
     end
 
+    def validate!
+      raise ArgumentError.new('Invalid Redis Object') if @redis.blank? || @redis.class != Redis
+      raise ArgumentError.new('Invalid Redis Key')  if @redis_key.blank?
+    end
   end
 end
